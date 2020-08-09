@@ -1,4 +1,4 @@
-# GEMS-NT
+# <img src="gems.png" alt="Logo" width="5%"/> GEMS NT
 GEMS NT- GEMS is Essentially Maybe Spinel *Next Technologies.*
 
 Required to build:

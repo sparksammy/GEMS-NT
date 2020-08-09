@@ -1,0 +1,9 @@
+D:\GEMSNT\GEMSNT\GEMSNT\bin\Release\netcoreapp2.0\cosmos\GEMSNT.deps.json
+D:\GEMSNT\GEMSNT\GEMSNT\bin\Release\netcoreapp2.0\cosmos\GEMSNT.dll
+D:\GEMSNT\GEMSNT\GEMSNT\bin\Release\netcoreapp2.0\cosmos\GEMSNT.pdb
+D:\GEMSNT\GEMSNT\GEMSNT\obj\Release\netcoreapp2.0\cosmos\GEMSNT.csprojAssemblyReference.cache
+D:\GEMSNT\GEMSNT\GEMSNT\obj\Release\netcoreapp2.0\cosmos\GEMSNT.AssemblyInfoInputs.cache
+D:\GEMSNT\GEMSNT\GEMSNT\obj\Release\netcoreapp2.0\cosmos\GEMSNT.AssemblyInfo.cs
+D:\GEMSNT\GEMSNT\GEMSNT\obj\Release\netcoreapp2.0\cosmos\GEMSNT.csproj.CoreCompileInputs.cache
+D:\GEMSNT\GEMSNT\GEMSNT\obj\Release\netcoreapp2.0\cosmos\GEMSNT.dll
+D:\GEMSNT\GEMSNT\GEMSNT\obj\Release\netcoreapp2.0\cosmos\GEMSNT.pdb

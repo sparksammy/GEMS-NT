@@ -7,7 +7,7 @@ Required to build:
 * [Cosmos OS Dev Tools](https://github.com/CosmosOS/Cosmos/releases)
 
 Required to use:
-  * VMWare. (Ok, it's not required, but it will most likely break your system if you don't)
+  * VMWare. (Ok, it's not required, but it will most likely break your main operating system and/or erase your data if you don't)
   * The VMWare image provided [Here](https://github.com/sparksammy/GEMS-NT/releases/download/0.43a/Filesystem.vmdk)
 
 *NOTE: Make sure you have Visual Studio closed while installing Cosmos!*

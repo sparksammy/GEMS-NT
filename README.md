@@ -8,4 +8,6 @@ Required to build:
 
 *NOTE: Make sure you have Visual Studio closed while installing Cosmos!*
 
-Then go to Debug build settings --> Cosmos (new) --> then turn disable Debuging.
+Then go to Debug build settings --> change build to ISO --> Cosmos (new) --> then turn disable Debuging.
+
+Then just build it and enjoy.

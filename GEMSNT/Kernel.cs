@@ -8,7 +8,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.4";
+        string versionSTR = "0.41a";
 
         Sys.FileSystem.CosmosVFS fs;
         string current_directory = "0:\\";
@@ -53,6 +53,24 @@ namespace GEMSNT
                     Console.Write("File Name> ");
                     var echoFile = Console.ReadLine();
                     System.IO.File.WriteAllText(echoFile, writeContents);
+                } else if (cmd.ToString().Contains("dog")) {
+                    var dogFile = cmd.ToString().Remove(0, 4);
+                    try
+                    {
+                        var hello_file = fs.GetFile(dogFile);
+                        var hello_file_stream = hello_file.GetFileStream();
+
+                        if (hello_file_stream.CanRead)
+                        {
+                            byte[] text_to_read = new byte[hello_file_stream.Length];
+                            hello_file_stream.Read(text_to_read, 0, (int)hello_file_stream.Length);
+                            Console.WriteLine(Encoding.Default.GetString(text_to_read));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
                 } else if (cmd == "cmds" || cmd == "help") {
                     Console.WriteLine("GEMS NT - Commands");
                     Console.WriteLine("---");
@@ -64,6 +82,7 @@ namespace GEMSNT
                     Console.WriteLine("dir - list contents of directory");
                     Console.WriteLine("clear - clears screen");
                     Console.WriteLine("cmds/help - this.");
+                    Console.WriteLine("dog - get contents of file.");
                 } else {
                     Console.WriteLine("Command not found. (Pro tip: cmds for commands!)");
                 }

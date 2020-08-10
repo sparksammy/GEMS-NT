@@ -1,8 +1,7 @@
 # <img src="gems.png" alt="Logo" width="5%"/> GEMS NT
-GEMS NT- GEMS is Essentially Maybe Spinel *Next Technologies.*
+GEMS is Essentially Maybe Spinel *Next Technologies.*
 
 Required to build:
-
 * Visual Studio 2019 w/ C#
 * [Cosmos OS Dev Tools](https://github.com/CosmosOS/Cosmos/releases)
 
@@ -15,9 +14,7 @@ Required to use:
 
 # How to build.
 * Install COSMOS
-
 * After installed, go to Debug build settings, change build to ISO, then goto Cosmos (new), and finally then disable Debuging.
-
 * When that's done, just build it and enjoy. *In VMWare, of course! :)*
 
 ## VM building instructions

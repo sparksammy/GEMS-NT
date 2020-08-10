@@ -33,3 +33,6 @@ Required to use:
 * Text doesn't wrap around to the top!
 * A filesystem!
 * All of this (and maybe even more) thanks to Cosmos!
+
+## Links to useful resources:
+[SamLang Manual](https://github.com/sparksammy/GEMS-NT/blob/master/SAMLANG.md)

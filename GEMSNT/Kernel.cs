@@ -8,7 +8,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.5prebeta";
+        string versionSTR = "0.51prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -22,6 +22,7 @@ namespace GEMSNT
             Console.Clear();
             Console.WriteLine("Welcome to GEMS NT!");
         }
+
 
         protected override void Run()
         {
@@ -170,6 +171,40 @@ namespace GEMSNT
                     {
                         Console.WriteLine(e.ToString());
                     }
+                } else if (cmd.ToString().StartsWith("samlang")) {
+                    var samlangFile = cmd.ToString().Remove(0, 8);
+                    string samlangFileContents = "";
+                    try
+                    {
+                        var hello_file = fs.GetFile(current_directory + samlangFile);
+                        var hello_file_stream = hello_file.GetFileStream();
+
+                        if (hello_file_stream.CanRead)
+                        {
+                            byte[] text_to_read = new byte[hello_file_stream.Length];
+                            hello_file_stream.Read(text_to_read, 0, (int)hello_file_stream.Length);
+                            samlangFileContents = Encoding.Default.GetString(text_to_read);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+
+                    foreach (var line in samlangFileContents.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        if (line.ToString().StartsWith("print-nlb")) {
+                            var printingNLB = line.ToString().Remove(0, 11);
+                            Console.Write(printingNLB);
+                        } else if (line.ToString().StartsWith("print")) {
+                            var printing = line.ToString().Remove(0, 6);
+                            Console.WriteLine(printing);
+                        } else if (line.ToString().StartsWith("beep")) {
+                            Console.Beep(1000, 530);
+                        } else {
+                            Console.WriteLine("!!! ERROR - COMMAND NOT FOUND!!!");
+                        }
+                    }
                 } else if (cmd == "cmds" || cmd == "help") {
                     Console.WriteLine("GEMS NT - Commands");
                     Console.WriteLine("---");
@@ -186,6 +221,7 @@ namespace GEMSNT
                     Console.WriteLine("clear - clears screen");
                     Console.WriteLine("cmds/help - this.");
                     Console.WriteLine("dog - get contents of file.");
+                    Console.WriteLine("samlang - run a file as samlang");
                 } else {
                     Console.WriteLine("Command not found. (Pro tip: cmds for commands!)");
                 }

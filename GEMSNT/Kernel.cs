@@ -8,7 +8,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.51prebeta";
+        string versionSTR = "0.511prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -20,13 +20,14 @@ namespace GEMSNT
             fs = new Sys.FileSystem.CosmosVFS();
             Sys.FileSystem.VFS.VFSManager.RegisterVFS(fs);
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Welcome to GEMS NT!");
         }
 
 
         protected override void Run()
         {
-            Console.ForegroundColor = ConsoleColor.Green;
             while (1 == 1)
             {
                 Console.Write(current_directory + " $> ");

@@ -7,7 +7,7 @@ Required to build:
 
 Required to use:
   * VMWare. (Ok, it's not required, but it will most likely break your main operating system and/or erase your data if you don't)
-  * The VMWare image provided [here](https://github.com/sparksammy/GEMS-NT/releases/download/0.43a/Filesystem.vmdk)
+  * The VMWare image provided [here](https://github.com/sparksammy/GEMS-NT/releases/download/0.43aSR/Filesystem.vmdk)
   * [The latest release of GEMS NT.](https://github.com/sparksammy/GEMS-NT/releases/)
 
 *NOTE: Make sure you have Visual Studio closed while installing Cosmos!*

@@ -8,7 +8,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.512prebeta";
+        string versionSTR = "0.515prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -110,6 +110,20 @@ namespace GEMSNT
                             Console.WriteLine("!!! Directory not found. !!!");
                         }
                     }
+                } else if (cmd.ToString().StartsWith("setvol")) {
+                    var vol2set = cmd.ToString().Remove(0, 7);
+                    if (fs.IsValidDriveId(vol2set.Replace(":\\", "")))
+                    {
+                        current_directory = vol2set;
+                    } else
+                    {
+                        Console.WriteLine("Invalid volume ID!");
+                    }
+                } else if (cmd.ToString().StartsWith("listvol")) {
+                    foreach (var item in fs.GetVolumes())
+                    {
+                        Console.WriteLine(item);
+                    }
                 } else if (cmd.ToString().StartsWith("del")) {
                     var delFile = cmd.ToString().Remove(0, 4);
                     File.Delete(delFile);
@@ -207,23 +221,60 @@ namespace GEMSNT
                             Console.WriteLine("!!! ERROR - COMMAND NOT FOUND!!!");
                         }
                     }
+                } else if (cmd == "math") {
+                    int ans = 0;
+                    Console.WriteLine("(M)ultiply");
+                    Console.WriteLine("(A)dd");
+                    Console.WriteLine("(S)ubtract");
+                    Console.WriteLine("(D)ivide");
+                    Console.Write("MATH> ");
+                    string mathOperation = Console.ReadLine().ToLower();
+                    Console.Write("First number> ");
+                    string FirstNumMath =  Console.ReadLine();
+                    Console.Write("Second number> ");
+                    string SecondNumMath = Console.ReadLine();
+                    int first = Convert.ToInt32(FirstNumMath);
+                    int second = Convert.ToInt32(SecondNumMath);
+                    if (mathOperation == "m")
+                    {
+                        ans = first * second;
+                        Console.WriteLine(ans.ToString());
+                    } else if (mathOperation == "a")
+                    {
+                        ans = first + second;
+                        Console.WriteLine(ans.ToString());
+                    } else if (mathOperation == "s")
+                    {
+                        ans = first - second;
+                        Console.WriteLine(ans.ToString());
+                    } else if (mathOperation == "d")
+                    {
+                        ans = first / second;
+                        Console.WriteLine(ans.ToString());
+                    } else
+                    {
+                        Console.WriteLine("Unknown operation!");
+                    }
                 } else if (cmd == "cmds" || cmd == "help") {
                     Console.WriteLine("GEMS NT - Commands");
                     Console.WriteLine("---");
                     Console.WriteLine("about - about this copy of GEMS.");
                     Console.WriteLine("rainbowConnection - Muppets reference");
                     Console.WriteLine("echo - echos back value you pass to it");
-                    Console.WriteLine("2file - writes a specified value to a file.");  //renable once file creation is back.
-                    Console.WriteLine("mkfile - creates a file at specified directory"); //renable once file creation is back.
+                    Console.WriteLine("2file - writes a specified value to a file."); 
+                    Console.WriteLine("mkfile - creates a file at specified directory"); 
                     Console.WriteLine("mkdir - creates the specified directory");
-                    Console.WriteLine("del - deletes a file, NOT DIRECTORIES.");  //renable once file creation is back.
-                    //Console.WriteLine("ddir - deletes a directory, NOT FILES.");
+                    Console.WriteLine("del - deletes a file, NOT DIRECTORIES.");
+                    //Console.WriteLine("ddir - deletes a directory, NOT FILES."); //re-enable once fixed
                     Console.WriteLine("cd - changes directory to passed directory");
                     Console.WriteLine("dir - list contents of directory");
                     Console.WriteLine("clear - clears screen");
                     Console.WriteLine("cmds/help - this.");
+                    //Console.WriteLine("setvol - set volume"); //re-enable once fixed
+                    //Console.WriteLine("listvol - list volumes"); //re-enable once fixed
                     Console.WriteLine("dog - get contents of file.");
                     Console.WriteLine("samlang - run a file as samlang");
+                    Console.WriteLine("math - calculates a math operation with 2 numbers.");
                 } else {
                     Console.WriteLine("Command not found. (Pro tip: cmds for commands!)");
                 }

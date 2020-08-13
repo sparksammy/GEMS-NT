@@ -11,7 +11,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.523prebeta";
+        string versionSTR = "0.53prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -30,6 +30,7 @@ namespace GEMSNT
 
         protected override void Run()
         {
+            PCSpeaker.PCSpeaker.play(PCSpeaker.PCSpeaker.notes.D3, 400);
             Console.Clear();
             Console.WriteLine("Welcome to GEMS NT!");
             while (1 == 1)
@@ -41,6 +42,18 @@ namespace GEMSNT
                 if (cmd == "clear")
                 {
                     Console.Clear();
+                }
+                if (cmd == "reboot")
+                {
+                    Console.Clear();
+                    Console.WriteLine("System now rebooting...");
+                    Cosmos.System.Power.Reboot();
+                }
+                if (cmd == "shutdown")
+                {
+                    Console.Clear();
+                    Console.WriteLine("System now shutting down...");
+                    Cosmos.System.Power.Shutdown();
                 }
                 else if (cmd == "about")
                 {
@@ -340,6 +353,8 @@ namespace GEMSNT
                     Console.WriteLine("math - calculates a math operation with 2 numbers.");
                     Console.WriteLine("getMACAddr - gets your MAC address.");
                     Console.WriteLine("netAvailable - check to see if networking is available.");
+                    Console.WriteLine("shutdown - shuts down your pc.");
+                    Console.WriteLine("reboot - reboots your pc.");
                 }
                 else
                 {

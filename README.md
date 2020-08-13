@@ -33,3 +33,7 @@ Required to use:
 
 ## Links to useful resources:
 [SamLang Manual](https://github.com/sparksammy/GEMS-NT/blob/master/SAMLANG.md)
+
+## Fun facts
+The GEMS team has an internal function to play notes. It goes something like this:
+``PCSpeaker.PCSpeaker.play(PCSpeaker.PCSpeaker.notes.D3, 1000);``

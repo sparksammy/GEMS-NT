@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using Sys = Cosmos.System;
 using System.IO;
+using GEMSNT.Networking;
+using GEMSNT.PCSpeaker;
+using GEMSNT.Wait;
 
 namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.515prebeta";
+        string versionSTR = "0.523prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -35,9 +38,12 @@ namespace GEMSNT
                 var cmd = Console.ReadLine();
                 //Console.Write("*RUSHELL DEBUG* Command typed: ");
                 //Console.WriteLine(cmd);
-                if (cmd == "clear") {
+                if (cmd == "clear")
+                {
                     Console.Clear();
-                } else if (cmd == "about") {
+                }
+                else if (cmd == "about")
+                {
                     long available_space = fs.GetAvailableFreeSpace("0:/");
                     string fs_type = fs.GetFileSystemType("0:/");
                     Console.WriteLine("GEMS NT Version: " + versionSTR);
@@ -45,12 +51,15 @@ namespace GEMSNT
                     {
                         Console.WriteLine("File System Type on main drive: " + fs_type);
                         Console.WriteLine("Available Free Space on main drive: " + available_space);
-                    } else
+                    }
+                    else
                     {
                         Console.WriteLine("File System Type on main drive: NONE");
                         Console.WriteLine("Available Free Space on main drive: 0");
                     }
-                } else if (cmd == "rainbowConnection") {
+                }
+                else if (cmd == "rainbowConnection")
+                {
                     Console.WriteLine("Why are there so many songs about rainbows,");
                     Console.WriteLine("and what's on the other side?");
                     Console.WriteLine("--Kermit");
@@ -72,7 +81,9 @@ namespace GEMSNT
                     Console.Beep(942, 400);
                     Console.Beep(990, 600);
                     Console.Beep(800, 600);
-                } else if (cmd == "dir") {
+                }
+                else if (cmd == "dir")
+                {
                     string[] dirs = Directory.GetDirectories(current_directory);
                     string[] files = Directory.GetFiles(current_directory);
                     Console.WriteLine("Dirs:");
@@ -89,17 +100,24 @@ namespace GEMSNT
                         Console.WriteLine(item);
                     }
                     Console.WriteLine("---");
-                } else if (cmd.ToString().StartsWith("echo")) {
+                }
+                else if (cmd.ToString().StartsWith("echo"))
+                {
                     var echoing = cmd.ToString().Remove(0, 5);
                     Console.WriteLine(echoing);
-                } else if (cmd.ToString().StartsWith("cd")) {
+                }
+                else if (cmd.ToString().StartsWith("cd"))
+                {
                     var dirCD = cmd.ToString().Remove(0, 3);
-                    if (dirCD == "..") {
+                    if (dirCD == "..")
+                    {
                         string prevDirTemp = current_directory.ToString().Replace(currDir.ToString() + "\\", "\\");
                         Console.WriteLine(prevDirTemp.ToString());
                         current_directory = prevDirTemp.ToString();
                         currDir = fs.GetDirectory(prevDirTemp).mName.ToString();
-                    } else {
+                    }
+                    else
+                    {
                         currDir = dirCD.ToString();
                         if (fs.GetDirectory(current_directory + dirCD) != null)
                         {
@@ -110,31 +128,45 @@ namespace GEMSNT
                             Console.WriteLine("!!! Directory not found. !!!");
                         }
                     }
-                } else if (cmd.ToString().StartsWith("setvol")) {
+                }
+                else if (cmd.ToString().StartsWith("setvol"))
+                {
                     var vol2set = cmd.ToString().Remove(0, 7);
                     if (fs.IsValidDriveId(vol2set.Replace(":\\", "")))
                     {
                         current_directory = vol2set;
-                    } else
+                    }
+                    else
                     {
                         Console.WriteLine("Invalid volume ID!");
                     }
-                } else if (cmd.ToString().StartsWith("listvol")) {
+                }
+                else if (cmd.ToString().StartsWith("listvol"))
+                {
                     foreach (var item in fs.GetVolumes())
                     {
                         Console.WriteLine(item);
                     }
-                } else if (cmd.ToString().StartsWith("del")) {
+                }
+                else if (cmd.ToString().StartsWith("del"))
+                {
                     var delFile = cmd.ToString().Remove(0, 4);
                     File.Delete(delFile);
-                } else if (cmd.ToString().StartsWith("ddir")) {
+                }
+                else if (cmd.ToString().StartsWith("ddir"))
+                {
                     var delDir = cmd.ToString().Remove(0, 5);
-                    try {
+                    try
+                    {
                         fs.DeleteDirectory(fs.GetDirectory(delDir));
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         Console.WriteLine(e.ToString());
                     }
-                } else if (cmd.ToString().StartsWith("2file")) {
+                }
+                else if (cmd.ToString().StartsWith("2file"))
+                {
                     var writeContents = cmd.ToString().Remove(0, 6);
                     Console.Write("Filename> ");
                     var echoFile = Console.ReadLine();
@@ -149,7 +181,9 @@ namespace GEMSNT
                     {
                         Console.WriteLine(e.ToString());
                     }
-                } else if (cmd.ToString().StartsWith("mkdir")) {
+                }
+                else if (cmd.ToString().StartsWith("mkdir"))
+                {
                     var makeDir = cmd.ToString().Remove(0, 6);
                     try
                     {
@@ -159,7 +193,9 @@ namespace GEMSNT
                     {
                         Console.WriteLine(e.ToString());
                     }
-                } else if (cmd.ToString().StartsWith("mkfile")) {
+                }
+                else if (cmd.ToString().StartsWith("mkfile"))
+                {
                     var makeFile = cmd.ToString().Remove(0, 7);
                     try
                     {
@@ -169,7 +205,17 @@ namespace GEMSNT
                     {
                         Console.WriteLine(e.ToString());
                     }
-                } else if (cmd.ToString().StartsWith("dog")) {
+                }
+                else if (cmd.ToString() == "getMACAddr")
+                {
+                    Console.WriteLine(Networking.Networking.GetMACAddress());
+                }
+                else if (cmd.ToString() == "netAvailable")
+                {
+                    Console.WriteLine(Networking.Networking.isNetworkingAvailable().ToString());
+                }
+                else if (cmd.ToString().StartsWith("dog"))
+                {
                     var dogFile = cmd.ToString().Remove(0, 4);
                     try
                     {
@@ -187,7 +233,9 @@ namespace GEMSNT
                     {
                         Console.WriteLine(e.ToString());
                     }
-                } else if (cmd.ToString().StartsWith("samlang")) {
+                }
+                else if (cmd.ToString().StartsWith("samlang"))
+                {
                     var samlangFile = cmd.ToString().Remove(0, 8);
                     string samlangFileContents = "";
                     try
@@ -209,19 +257,28 @@ namespace GEMSNT
 
                     foreach (var line in samlangFileContents.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
                     {
-                        if (line.ToString().StartsWith("print-nlb")) {
+                        if (line.ToString().StartsWith("print-nlb"))
+                        {
                             var printingNLB = line.ToString().Remove(0, 11);
                             Console.Write(printingNLB);
-                        } else if (line.ToString().StartsWith("print")) {
+                        }
+                        else if (line.ToString().StartsWith("print"))
+                        {
                             var printing = line.ToString().Remove(0, 6);
                             Console.WriteLine(printing);
-                        } else if (line.ToString().StartsWith("beep")) {
+                        }
+                        else if (line.ToString().StartsWith("beep"))
+                        {
                             Console.Beep(1000, 530);
-                        } else {
+                        }
+                        else
+                        {
                             Console.WriteLine("!!! ERROR - COMMAND NOT FOUND!!!");
                         }
                     }
-                } else if (cmd == "math") {
+                }
+                else if (cmd == "math")
+                {
                     int ans = 0;
                     Console.WriteLine("(M)ultiply");
                     Console.WriteLine("(A)dd");
@@ -230,7 +287,7 @@ namespace GEMSNT
                     Console.Write("MATH> ");
                     string mathOperation = Console.ReadLine().ToLower();
                     Console.Write("First number> ");
-                    string FirstNumMath =  Console.ReadLine();
+                    string FirstNumMath = Console.ReadLine();
                     Console.Write("Second number> ");
                     string SecondNumMath = Console.ReadLine();
                     int first = Convert.ToInt32(FirstNumMath);
@@ -239,30 +296,36 @@ namespace GEMSNT
                     {
                         ans = first * second;
                         Console.WriteLine(ans.ToString());
-                    } else if (mathOperation == "a")
+                    }
+                    else if (mathOperation == "a")
                     {
                         ans = first + second;
                         Console.WriteLine(ans.ToString());
-                    } else if (mathOperation == "s")
+                    }
+                    else if (mathOperation == "s")
                     {
                         ans = first - second;
                         Console.WriteLine(ans.ToString());
-                    } else if (mathOperation == "d")
+                    }
+                    else if (mathOperation == "d")
                     {
                         ans = first / second;
                         Console.WriteLine(ans.ToString());
-                    } else
+                    }
+                    else
                     {
                         Console.WriteLine("Unknown operation!");
                     }
-                } else if (cmd == "cmds" || cmd == "help") {
+                }
+                else if (cmd == "cmds" || cmd == "help")
+                {
                     Console.WriteLine("GEMS NT - Commands");
                     Console.WriteLine("---");
                     Console.WriteLine("about - about this copy of GEMS.");
                     Console.WriteLine("rainbowConnection - Muppets reference");
                     Console.WriteLine("echo - echos back value you pass to it");
-                    Console.WriteLine("2file - writes a specified value to a file."); 
-                    Console.WriteLine("mkfile - creates a file at specified directory"); 
+                    Console.WriteLine("2file - writes a specified value to a file.");
+                    Console.WriteLine("mkfile - creates a file at specified directory");
                     Console.WriteLine("mkdir - creates the specified directory");
                     Console.WriteLine("del - deletes a file, NOT DIRECTORIES.");
                     //Console.WriteLine("ddir - deletes a directory, NOT FILES."); //re-enable once fixed
@@ -275,7 +338,11 @@ namespace GEMSNT
                     Console.WriteLine("dog - get contents of file.");
                     Console.WriteLine("samlang - run a file as samlang");
                     Console.WriteLine("math - calculates a math operation with 2 numbers.");
-                } else {
+                    Console.WriteLine("getMACAddr - gets your MAC address.");
+                    Console.WriteLine("netAvailable - check to see if networking is available.");
+                }
+                else
+                {
                     Console.WriteLine("Command not found. (Pro tip: cmds for commands!)");
                 }
             }

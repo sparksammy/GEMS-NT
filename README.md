@@ -1,5 +1,7 @@
 # <img src="gems.png" alt="Logo" width="5%"/> GEMS NT
 GEMS is Essentially Maybe Spinel *Next Technologies.*
+*Note: This is not Spinel, we are just trying to be better. ;)*
+
 
 Required to build:
 * Visual Studio 2019 w/ C#

@@ -10,7 +10,7 @@ In order to contribute, you must follow the [Sparksammy C.O.C.](https://github.c
 
 Required to build:
 * Visual Studio 2019 w/ C#
-* [Cosmos OS Dev Tools](https://github.com/CosmosOS/Cosmos/releases)
+* [Cosmos OS User Kit](https://github.com/CosmosOS/Cosmos/releases)
 
 Required to use:
   * VMWare. (Ok, it's not required, but it will most likely break your main operating system and/or erase your data if you don't)

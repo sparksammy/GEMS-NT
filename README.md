@@ -2,6 +2,9 @@
 GEMS is Essentially Maybe Spinel *Next Technologies.*
 *Note: This is not Spinel, we are just trying to be better. ;)*
 
+# Important notice!
+
+In order to contribute, you must follow the [Sparksammy C.O.C.](https://github.com/sparksammy/sparksammycoc)
 
 Required to build:
 * Visual Studio 2019 w/ C#

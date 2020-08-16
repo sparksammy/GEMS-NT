@@ -11,7 +11,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.53prebeta";
+        string versionSTR = "0.5311prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -37,6 +37,7 @@ namespace GEMSNT
             {
                 Console.Write(current_directory + " $> ");
                 var cmd = Console.ReadLine();
+                var args = cmd.Split(' ');
                 //Console.Write("*RUSHELL DEBUG* Command typed: ");
                 //Console.WriteLine(cmd);
                 if (cmd == "clear")
@@ -144,7 +145,7 @@ namespace GEMSNT
                 }
                 else if (cmd.ToString().StartsWith("setvol"))
                 {
-                    var vol2set = cmd.ToString().Remove(0, 7);
+                    var vol2set = args[1];
                     if (fs.IsValidDriveId(vol2set.Replace(":\\", "")))
                     {
                         current_directory = vol2set;

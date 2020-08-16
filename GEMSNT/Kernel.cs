@@ -11,7 +11,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.5311prebeta";
+        string versionSTR = "0.5312prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -30,7 +30,7 @@ namespace GEMSNT
 
         protected override void Run()
         {
-            PCSpeaker.PCSpeaker.play(PCSpeaker.PCSpeaker.notes.D3, 400);
+            PCSpeaker.PCSpeaker.play(PCSpeaker.PCSpeaker.notes.C4, 400);
             Console.Clear();
             Console.WriteLine("Welcome to GEMS NT!");
             while (1 == 1)
@@ -44,17 +44,27 @@ namespace GEMSNT
                 {
                     Console.Clear();
                 }
-                if (cmd == "reboot")
+                else if (cmd == "reboot")
                 {
                     Console.Clear();
                     Console.WriteLine("System now rebooting...");
                     Cosmos.System.Power.Reboot();
                 }
-                if (cmd == "shutdown")
+                else if (cmd == "shutdown")
                 {
                     Console.Clear();
                     Console.WriteLine("System now shutting down...");
                     Cosmos.System.Power.Shutdown();
+                }
+                else if (cmd == "time")
+                {
+                    var time = Cosmos.HAL.RTC.Hour.ToString() + ":" + Cosmos.HAL.RTC.Minute.ToString() + ":" + Cosmos.HAL.RTC.Second.ToString();
+                    Console.WriteLine(time);
+                }
+                else if (cmd == "date")
+                {
+                    var time = Cosmos.HAL.RTC.Month.ToString() + "-" + Cosmos.HAL.RTC.DayOfTheMonth.ToString() + "-" + Cosmos.HAL.RTC.Year.ToString();
+                    Console.WriteLine(time);
                 }
                 else if (cmd == "about")
                 {
@@ -271,6 +281,8 @@ namespace GEMSNT
 
                     foreach (var line in samlangFileContents.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
                     {
+                        var samlangArgs = line.Split(' ');
+
                         if (line.ToString().StartsWith("print-nlb"))
                         {
                             var printingNLB = line.ToString().Remove(0, 11);
@@ -331,35 +343,60 @@ namespace GEMSNT
                         Console.WriteLine("Unknown operation!");
                     }
                 }
-                else if (cmd == "cmds" || cmd == "help")
+                else if (cmd.StartsWith("cmds") || cmd.StartsWith("help"))
                 {
-                    Console.WriteLine("GEMS NT - Commands");
-                    Console.WriteLine("---");
-                    Console.WriteLine("about - about this copy of GEMS.");
-                    Console.WriteLine("rainbowConnection - Muppets reference");
-                    Console.WriteLine("echo - echos back value you pass to it");
-                    Console.WriteLine("2file - writes a specified value to a file.");
-                    Console.WriteLine("mkfile - creates a file at specified directory");
-                    Console.WriteLine("mkdir - creates the specified directory");
-                    Console.WriteLine("del - deletes a file, NOT DIRECTORIES.");
-                    //Console.WriteLine("ddir - deletes a directory, NOT FILES."); //re-enable once fixed
-                    Console.WriteLine("cd - changes directory to passed directory");
-                    Console.WriteLine("dir - list contents of directory");
-                    Console.WriteLine("clear - clears screen");
-                    Console.WriteLine("cmds/help - this.");
-                    //Console.WriteLine("setvol - set volume"); //re-enable once fixed
-                    //Console.WriteLine("listvol - list volumes"); //re-enable once fixed
-                    Console.WriteLine("dog - get contents of file.");
-                    Console.WriteLine("samlang - run a file as samlang");
-                    Console.WriteLine("math - calculates a math operation with 2 numbers.");
-                    Console.WriteLine("getMACAddr - gets your MAC address.");
-                    Console.WriteLine("netAvailable - check to see if networking is available.");
-                    Console.WriteLine("shutdown - shuts down your pc.");
-                    Console.WriteLine("reboot - reboots your pc.");
+                    try
+                    {
+                        if (args[1] == "1")
+                        {
+                            Console.WriteLine("GEMS NT - Commands");
+                            Console.WriteLine("---");
+                            Console.WriteLine("about - about this copy of GEMS.");
+                            Console.WriteLine("rainbowConnection - Muppets reference");
+                            Console.WriteLine("echo - echos back value you pass to it");
+                            Console.WriteLine("2file - writes a specified value to a file.");
+                            Console.WriteLine("mkfile - creates a file at specified directory");
+                            Console.WriteLine("mkdir - creates the specified directory");
+                            Console.WriteLine("del - deletes a file, NOT DIRECTORIES.");
+                            //Console.WriteLine("ddir - deletes a directory, NOT FILES."); //re-enable once fixed
+                            Console.WriteLine("cd - changes directory to passed directory");
+                            Console.WriteLine("***MORE ON PAGE #2***");
+                        }
+                        else if (args[1] == "2")
+                        {
+                            Console.WriteLine("dir - list contents of directory");
+                            Console.WriteLine("clear - clears screen");
+                            Console.WriteLine("cmds/help - this.");
+                            //Console.WriteLine("setvol - set volume"); //re-enable once fixed
+                            //Console.WriteLine("listvol - list volumes"); //re-enable once fixed
+                            Console.WriteLine("dog - get contents of file.");
+                            Console.WriteLine("samlang - run a file as samlang");
+                            Console.WriteLine("math - calculates a math operation with 2 numbers.");
+                            Console.WriteLine("getMACAddr - gets your MAC address.");
+                            Console.WriteLine("netAvailable - check to see if networking is available.");
+                            Console.WriteLine("***MORE ON PAGE #3***");
+                        }
+                        else if (args[1] == "3")
+                        {
+                            Console.WriteLine("shutdown - shuts down your pc.");
+                            Console.WriteLine("reboot - reboots your pc.");
+                            Console.WriteLine("date - gets date in (M)M/DD/YY format.");
+                            Console.WriteLine("time - gets time in 24 hour format.");
+                            Console.WriteLine("***END OF COMMANDS***");
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid page! Try 'cmds 1'");
+                        }
+                    } catch
+                    {
+                        Console.WriteLine("No page! Try 'cmds 1'");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Command not found. (Pro tip: cmds for commands!)");
+                    Console.WriteLine("Command not found. (Pro tip: 'cmds 1' for commands!)");
                 }
             }
         }

@@ -5,6 +5,8 @@ GEMS is Essentially Maybe Spinel *Next Technologies.*
 ## Important notices!
 
 In order to contribute, you must follow the [Sparksammy C.O.C.](https://github.com/sparksammy/sparksammycoc)
+
+
 *Also: Since the current version of MIV for Cosmos (at the time I got it) did not have a LICENSE, I was able to add said version to GEMS NT. MIV is not my work, even though I wish it was. All credits go [here](https://github.com/bartashevich/MIV/tree/62a4f0b7cc5831d66725484b91c295acd5213d0e), and I have forked it as evidence [here.](https://github.com/sparksammy/COSMOS-MIV)*
 
 ## Requirements

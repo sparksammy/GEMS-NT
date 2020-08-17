@@ -1,5 +1,8 @@
 # SamLang Manual
 
+## NOTICE
+SamLang does *not* support the MIV app!
+
 ## SamLang Commands
 * print - same as echo.
 * print-nlb - print/echo without linebreaks.

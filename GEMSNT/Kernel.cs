@@ -6,6 +6,8 @@ using System.IO;
 using GEMSNT.Networking;
 using GEMSNT.PCSpeaker;
 using GEMSNT.Wait;
+using cc = GEMSNT.ConsoleColorz;
+using System.ComponentModel;
 
 namespace GEMSNT
 {
@@ -30,7 +32,7 @@ namespace GEMSNT
 
         protected override void Run()
         {
-            PCSpeaker.PCSpeaker.play(PCSpeaker.PCSpeaker.notes.C4, 400);
+            PCSpeaker.PCSpeaker.play(PCSpeaker.PCSpeaker.notes.CS3, 400);
             Console.Clear();
             Console.WriteLine("Welcome to GEMS NT!");
             while (1 == 1)
@@ -238,6 +240,40 @@ namespace GEMSNT
                 {
                     Console.WriteLine(Networking.Networking.isNetworkingAvailable().ToString());
                 }
+                else if (cmd.ToString().StartsWith("color"))
+                {
+                    try
+                    {
+                        var fg = args[1].ToString();
+                        var bg = args[2].ToString();
+                        if (fg == bg)
+                        {
+                            Console.WriteLine("Foreground and background can't be equal!");
+                        } else if (fg == "help")
+                        {
+                            Console.WriteLine(@"Colors:
+            Black
+            (Dark)Gray 
+            (Dark)Blue
+            (Dark)Green
+            (Dark)Cyan
+            (Dark)Red
+            (Dark)Magenta
+            (Dark)Yellow
+            White");
+                        } else
+                        {
+                            Console.WriteLine("Will be available once we fix this.");
+                            Console.WriteLine("(Not sure if it's me or Cosmos.)");
+                            //Console.ForegroundColor = (ConsoleColor)cc.getColor(fg);
+                            //Console.BackgroundColor = (ConsoleColor)cc.getColor(bg);
+                        }
+
+                    } catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
                 else if (cmd.ToString().StartsWith("dog"))
                 {
                     var dogFile = cmd.ToString().Remove(0, 4);
@@ -382,7 +418,10 @@ namespace GEMSNT
                             Console.WriteLine("reboot - reboots your pc.");
                             Console.WriteLine("date - gets date in (M)M/DD/YY format.");
                             Console.WriteLine("time - gets time in 24 hour format.");
+                            Console.WriteLine("color [FG] [BG] - sets foreground/background color of console.");
+                            Console.WriteLine("color help - lists colors.");
                             Console.WriteLine("***END OF COMMANDS***");
+                            
 
                         }
                         else
@@ -405,5 +444,6 @@ namespace GEMSNT
             var dirs = Directory.GetDirectories(adr);
             return dirs;
         }
+
     }
 }

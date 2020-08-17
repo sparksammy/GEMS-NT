@@ -80,9 +80,10 @@ namespace GEMSNT.Networking
         {
             if (nic.Ready)
             {
+                byte[] dataBytes1 = Encoding.ASCII.GetBytes("");
+                nic.ReceiveBytes(dataBytes1, offset, max);
                 var data = nic.DataReceived.ToString();
-                byte[] dataBytes = Encoding.ASCII.GetBytes(data);
-                nic.ReceiveBytes(dataBytes, offset, max);
+                byte[] dataBytes2 = Encoding.ASCII.GetBytes(data);
                 return "Recieved as bytes: " + data;
             }
             else

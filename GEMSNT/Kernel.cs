@@ -19,6 +19,7 @@ namespace GEMSNT
 
         string current_directory = "0:\\";
         string currDir = "";
+        public static string file;
 
         protected override void BeforeRun()
         {
@@ -51,6 +52,10 @@ namespace GEMSNT
                     Console.Clear();
                     Console.WriteLine("System now rebooting...");
                     Cosmos.System.Power.Reboot();
+                }
+                else if (cmd == "miv")
+                {
+                    MIV.StartMIV();
                 }
                 else if (cmd == "shutdown")
                 {
@@ -249,7 +254,8 @@ namespace GEMSNT
                         if (fg == bg)
                         {
                             Console.WriteLine("Foreground and background can't be equal!");
-                        } else if (fg == "help")
+                        }
+                        else if (fg == "help")
                         {
                             Console.WriteLine(@"Colors:
             Black
@@ -261,7 +267,8 @@ namespace GEMSNT
             (Dark)Magenta
             (Dark)Yellow
             White");
-                        } else
+                        }
+                        else
                         {
                             Console.WriteLine("Will be available once we fix this.");
                             Console.WriteLine("(Not sure if it's me or Cosmos.)");
@@ -269,7 +276,8 @@ namespace GEMSNT
                             //Console.BackgroundColor = (ConsoleColor)cc.getColor(bg);
                         }
 
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }
@@ -418,17 +426,19 @@ namespace GEMSNT
                             Console.WriteLine("reboot - reboots your pc.");
                             Console.WriteLine("date - gets date in (M)M/DD/YY format.");
                             Console.WriteLine("time - gets time in 24 hour format.");
-                            Console.WriteLine("color [FG] [BG] - sets foreground/background color of console.");
-                            Console.WriteLine("color help - lists colors.");
+                            //Console.WriteLine("color [FG] [BG] - sets foreground/background color of console.");
+                            //Console.WriteLine("color help - lists colors.");
+                            Console.WriteLine("miv - minimalistic VI (not made by GEMS Team, public domain [no license open source])");
                             Console.WriteLine("***END OF COMMANDS***");
-                            
+
 
                         }
                         else
                         {
                             Console.WriteLine("Invalid page! Try 'cmds 1'");
                         }
-                    } catch
+                    }
+                    catch
                     {
                         Console.WriteLine("No page! Try 'cmds 1'");
                     }

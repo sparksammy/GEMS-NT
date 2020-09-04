@@ -1,7 +1,7 @@
 # <img src="samlang-logo.png" alt="Sam-Lang Logo" width="8%"/> SamLang Manual
 
 ## NOTICE
-SamLang does *not* support the MIV app!
+SamLang does *not* support the MIV app! (The new micro *isn't tested, either!*)
 
 ## SamLang Commands
 * print - same as echo.

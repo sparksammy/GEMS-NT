@@ -47,3 +47,5 @@ Required to use:
 ## Fun facts
 The GEMS team has an internal function to play notes. It goes something like this:
 ``PCSpeaker.PCSpeaker.play(PCSpeaker.PCSpeaker.notes.D3, 1000);``
+
+Also, I (Sparksammy) mispelled "micro.cs" as "macro.cs", I left it in there because I thought it was funny. :o) 

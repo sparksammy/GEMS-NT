@@ -1,4 +1,4 @@
-# <img src="samlang-logo.png" alt="Sam-Lang Logo" width="5%"/> SamLang Manual
+# <img src="samlang-logo.png" alt="Sam-Lang Logo" width="8%"/> SamLang Manual
 
 ## NOTICE
 SamLang does *not* support the MIV app!

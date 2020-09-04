@@ -53,9 +53,10 @@ namespace GEMSNT
                     Console.WriteLine("System now rebooting...");
                     Cosmos.System.Power.Reboot();
                 }
-                else if (cmd == "miv")
+                else if (cmd == "micro")
                 {
-                    MIV.StartMIV();
+                    var path = cmd.ToString().Remove(0, 6);
+                    Micro.startMicro(path);
                 }
                 else if (cmd == "shutdown")
                 {
@@ -428,7 +429,7 @@ namespace GEMSNT
                             Console.WriteLine("time - gets time in 24 hour format.");
                             //Console.WriteLine("color [FG] [BG] - sets foreground/background color of console.");
                             //Console.WriteLine("color help - lists colors.");
-                            Console.WriteLine("miv - minimalistic VI (not made by GEMS Team, public domain [no license open source])");
+                            Console.WriteLine("micro - MIV alt.");
                             Console.WriteLine("***END OF COMMANDS***");
 
 

@@ -49,3 +49,5 @@ The GEMS team has an internal function to play notes. It goes something like thi
 ``PCSpeaker.PCSpeaker.play(PCSpeaker.PCSpeaker.notes.D3, 1000);``
 
 Also, I (Sparksammy) mispelled "micro.cs" as "macro.cs", I left it in there because I thought it was funny. :o) 
+
+Fun fact 3: The GEMS logo is a cross between A Spinel (the mineral) with a crack in the shape of an "S", and a heart, to show that this is a Homage to Sparkpin and her Spinel OS. Also: The SamLang logo is a cross between a shield, a gem, as well as the initials for SamLang, S.L. (Symbolized as SL)

@@ -1,13 +1,11 @@
 # <img src="gems.png" alt="Logo" width="5%"/> GEMS NT
 GEMS is Essentially Maybe Spinel *Next Technologies.*
-*Note: This is not Spinel, we are just trying to be better. ;)*
 
 ## Important notices!
 
 In order to contribute, you must follow the [Sparksammy C.O.C.](https://github.com/sparksammy/sparksammycoc)
 
-
-*Also: Since the current version of MIV for Cosmos (at the time I got it) did not have a LICENSE, and I just found out that means that MIV is "All rights reserved", I have removed MIV, will replace with my own Text Editor.*
+*Also: This is not Spinel, we are just trying to be better. ;)*
 
 ## Requirements
 

@@ -6,28 +6,29 @@ using Sys = Cosmos.System;
 
 namespace GEMSNT
 {
-        
 
-        public class Micro
+
+    public class Micro
+    {
+        static string contents = "";
+        static string path = "";
+        public static void welcome()
         {
-            static string contents = "";
-            static string path = "";
-            public static void welcome()
-            {
             Console.Clear();
             Console.WriteLine("~");
             Console.WriteLine("~");
             Console.WriteLine("~");
             Console.WriteLine("~");
             Console.WriteLine("~                             micro - GEMS Text Editor");
-            Console.WriteLine("~                           A simple MIV-like text editor.");
+            Console.WriteLine("~                      A simple UI for 2file, inspired by MIV.");
             Console.WriteLine("~                                  version 1.0");
             Console.WriteLine("~                                 by Samuel Lord");
             Console.WriteLine("~                                 License - MIT");
             Console.WriteLine("~");
-            Console.WriteLine("~                      use q<enter>             to exit");
+            Console.WriteLine("~                      use q<enter>            to exit");
             Console.WriteLine("~                      use w<enter>            save to file");
-            Console.WriteLine("~                     press <escape>             use commands");
+            Console.WriteLine("~                      use c<enter>            to clear");
+            Console.WriteLine("~                   type :$m<enter>            to use commands");
             Console.WriteLine("~");
             Console.WriteLine("~");
             Console.WriteLine("~");
@@ -36,16 +37,18 @@ namespace GEMSNT
             Console.ReadKey(true); //any key to continue
             Console.Clear();
             micro();
-            
+
 
         }
 
-        public static void startMicro(string pathb) {
+        public static void startMicro(string pathb)
+        {
             if (File.Exists(pathb))
             {
                 microLoader(pathb);
                 welcome();
-            } else
+            }
+            else
             {
                 welcome();
             }
@@ -68,36 +71,40 @@ namespace GEMSNT
 
         public static String micro()
         {
+            var cmdMode = false;
             while (true)
-            {
-                var keyInf = Console.ReadKey(true);
-                var currentKey = keyInf.Key;
-                if (currentKey == ConsoleKey.Escape)
+            { 
+                if (cmdMode == true)
                 {
-                    var keyInfCMD = Console.ReadKey(true);
-                    var currentKeyCMD = keyInf.Key;
-                    if (currentKeyCMD == ConsoleKey.Q)
+                    Console.Write("m>");
+                    var cmd = Console.ReadLine();
+                    if (cmd == "c") {
+                        contents = "";
+                    } else if (cmd == "q")
                     {
-                        //quit
                         return null;
-                    } else if (currentKeyCMD == ConsoleKey.W)
+                    } else if (cmd == "s")
                     {
-                        //write the contents to the file
                         File.WriteAllText(path, contents);
-                    } else
-                    {
-                        //do nothing
                     }
-                } else
+                    cmdMode = false;
+                }
+                var newline = Console.ReadLine();
+
+                if (newline == ":$m")
                 {
-                    Console.Write(keyInf.KeyChar);
-                    contents = contents + keyInf.KeyChar;
+                    cmdMode = true;
+                }
+
+                if (cmdMode == false)
+                {
+                    contents += "\n" + newline;
                 }
             }
         }
 
-            
 
-            
+
+
     }
 }

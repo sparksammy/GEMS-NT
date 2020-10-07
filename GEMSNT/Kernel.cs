@@ -8,12 +8,15 @@ using GEMSNT.PCSpeaker;
 using GEMSNT.Wait;
 using cc = GEMSNT.ConsoleColorz;
 using System.ComponentModel;
+using Cosmos.System.Graphics;
+using System.Drawing;
+using mouse = Cosmos.System.MouseManager;
 
 namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.5312prebeta";
+        string versionSTR = "0.532prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -30,6 +33,215 @@ namespace GEMSNT
             Console.Clear();
         }
 
+        public void dir()
+        {
+            string[] dirs = Directory.GetDirectories(current_directory);
+            string[] files = Directory.GetFiles(current_directory);
+            Console.WriteLine("Dirs:");
+            Console.WriteLine("---");
+            foreach (var item in dirs)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("---");
+            Console.WriteLine("Files:");
+            Console.WriteLine("---");
+            foreach (var item in files)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("---");
+        }
+
+        public void mkdir(string dir2make)
+        {
+            try
+            {
+                fs.CreateDirectory(dir2make);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+        public void cd(string dirCD)
+        {
+            if (fs.IsValidDriveId(dirCD.Replace(":\\", "")) || fs.IsValidDriveId(dirCD.Replace(":", "")))
+            {
+                current_directory = dirCD;
+            }
+            else
+            {
+                if (dirCD == "..")
+                {
+                    string prevDirTemp = current_directory.ToString().Replace(currDir.ToString() + "\\", "\\");
+                    Console.WriteLine(prevDirTemp.ToString());
+                    current_directory = prevDirTemp.ToString();
+                    currDir = fs.GetDirectory(prevDirTemp).mName.ToString();
+                }
+                else
+                {
+                    currDir = dirCD.ToString();
+                    if (fs.GetDirectory(current_directory + dirCD) != null)
+                    {
+                        current_directory = current_directory + dirCD + "\\";
+                    }
+                    else
+                    {
+                        Console.WriteLine("!!! Directory not found. !!!");
+                    }
+                }
+            }
+        }
+
+        public void del(string fileOrDir)
+        {
+            try
+            {
+                fs.DeleteDirectory(fs.GetDirectory(fileOrDir));
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    File.Delete(fileOrDir);
+                }
+                catch
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
+        }
+
+        public string readFile(string dogFile)
+        {
+            try
+            {
+                var hello_file = fs.GetFile(current_directory + dogFile);
+                var hello_file_stream = hello_file.GetFileStream();
+
+                if (hello_file_stream.CanRead)
+                {
+                    byte[] text_to_read = new byte[hello_file_stream.Length];
+                    hello_file_stream.Read(text_to_read, 0, (int)hello_file_stream.Length);
+                    return Encoding.Default.GetString(text_to_read);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return "";
+        }
+
+        public void listDisk()
+        {
+            foreach (var item in fs.GetVolumes())
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        public string writeLineToFile(string echoFile, string writeContents)
+        {
+            try
+            {
+                using (StreamWriter w = File.AppendText(current_directory + echoFile))
+                {
+                    return writeContents;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return "";
+        }
+
+        Canvas canvas;
+        public void initGUI()
+        {
+            canvas = FullScreenCanvas.GetFullScreenCanvas();
+
+            canvas.Clear(Color.Blue);
+        }
+
+        public void clearGUI(System.Drawing.Color color)
+        {
+            canvas.Clear(color);
+        }
+
+        public void createCursor(System.Drawing.Color color)
+        {
+            try
+            {
+                Pen pen = new Pen(color);
+                canvas.DrawRectangle(pen, mouse.X, mouse.Y, mouse.X - 5, mouse.Y - 5);
+            }
+            catch
+            {
+                Console.WriteLine("Error making cursor.");
+            }
+        }
+
+        public bool isClicked(int x1, int y1, int x2, int y2, Sys.MouseState state)
+        {
+            //Example of state: Sys.MouseState.Left
+            if (mouse.MouseState == state && mouse.X < x1 && mouse.X > x2 && mouse.Y < y1 && mouse.Y > y2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void drawElement(string type, int x1, int y1, int x2, int y2, System.Drawing.Color color)
+        {
+            Pen pen = new Pen(color);
+            if (type == "line")
+            {
+                try
+                {
+                    canvas.DrawLine(pen, x1, y1, x2, y2);
+                }
+                catch
+                {
+                    Console.WriteLine("Error drawing line. Unknown error.");
+                }
+            }
+            else if (type == "rectangle")
+            {
+                try
+                {
+                    canvas.DrawRectangle(pen, x1, y1, x2, y2);
+                }
+                catch
+                {
+                    Console.WriteLine("Error rectangle line. Unknown error.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error drawing. Unknown type.");
+            }
+        }
+
+        public void setRes(int width, int height, ColorDepth colordepth)
+        {
+            canvas.Mode = new Mode(width, height, ColorDepth.ColorDepth32); //COSMOS only supports 32bit color depth. This is why we must use it.
+            //Also, we can *try* higher resolutions, but COSMOS community recommends sticking with 800x600 and 640x480.
+        }
+
+        public void drawImageFromBase64(string base64file, int x, int y)
+        {
+            Bitmap bmp = new Bitmap(Convert.FromBase64String(base64file));
+
+            Image img = (Image)bmp;
+
+            canvas.DrawImage(img, x, y);
+        }
 
         protected override void Run()
         {
@@ -47,15 +259,25 @@ namespace GEMSNT
                 {
                     Console.Clear();
                 }
+                else if (cmd == "lose")
+                {
+                    initGUI();
+                    drawElement("rectangle",0,0,20,10,Color.Red);
+                    createCursor(Color.Green);
+                    if (isClicked(0,0,20,10,Sys.MouseState.Left))
+                    {
+                        clearGUI(Color.Red);
+                    }
+                }
                 else if (cmd == "reboot")
                 {
                     Console.Clear();
                     Console.WriteLine("System now rebooting...");
                     Cosmos.System.Power.Reboot();
                 }
-                else if (cmd == "micro")
+                else if (cmd.StartsWith("micro"))
                 {
-                    var path = cmd.ToString().Remove(0, 6);
+                    var path = args[1];
                     Micro.startMicro(path);
                 }
                 else if (cmd == "shutdown")
@@ -141,90 +363,35 @@ namespace GEMSNT
                 else if (cmd.ToString().StartsWith("cd"))
                 {
                     var dirCD = cmd.ToString().Remove(0, 3);
-                    if (dirCD == "..")
-                    {
-                        string prevDirTemp = current_directory.ToString().Replace(currDir.ToString() + "\\", "\\");
-                        Console.WriteLine(prevDirTemp.ToString());
-                        current_directory = prevDirTemp.ToString();
-                        currDir = fs.GetDirectory(prevDirTemp).mName.ToString();
-                    }
-                    else
-                    {
-                        currDir = dirCD.ToString();
-                        if (fs.GetDirectory(current_directory + dirCD) != null)
-                        {
-                            current_directory = current_directory + dirCD + "\\";
-                        }
-                        else
-                        {
-                            Console.WriteLine("!!! Directory not found. !!!");
-                        }
-                    }
+                    cd(dirCD);
                 }
                 else if (cmd.ToString().StartsWith("setvol"))
                 {
-                    var vol2set = args[1];
-                    if (fs.IsValidDriveId(vol2set.Replace(":\\", "")))
-                    {
-                        current_directory = vol2set;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid volume ID!");
-                    }
+                    cd(args[1]);
                 }
                 else if (cmd.ToString().StartsWith("listvol"))
                 {
-                    foreach (var item in fs.GetVolumes())
-                    {
-                        Console.WriteLine(item);
-                    }
+                    listDisk();
                 }
                 else if (cmd.ToString().StartsWith("del"))
                 {
-                    var delFile = cmd.ToString().Remove(0, 4);
-                    File.Delete(delFile);
+                    del(args[1]);
                 }
                 else if (cmd.ToString().StartsWith("ddir"))
                 {
-                    var delDir = cmd.ToString().Remove(0, 5);
-                    try
-                    {
-                        fs.DeleteDirectory(fs.GetDirectory(delDir));
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
+                    del(args[1]);
                 }
                 else if (cmd.ToString().StartsWith("2file"))
                 {
                     var writeContents = cmd.ToString().Remove(0, 6);
                     Console.Write("Filename> ");
                     var echoFile = Console.ReadLine();
-                    try
-                    {
-                        using (StreamWriter w = File.AppendText(current_directory + echoFile))
-                        {
-                            w.WriteLine(writeContents);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
+                    writeLineToFile(echoFile, writeContents);
                 }
                 else if (cmd.ToString().StartsWith("mkdir"))
                 {
                     var makeDir = cmd.ToString().Remove(0, 6);
-                    try
-                    {
-                        fs.CreateDirectory(makeDir);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
+                    mkdir(makeDir);
                 }
                 else if (cmd.ToString().StartsWith("mkfile"))
                 {
@@ -283,25 +450,9 @@ namespace GEMSNT
                         Console.WriteLine(e);
                     }
                 }
-                else if (cmd.ToString().StartsWith("dog"))
-                {
-                    var dogFile = cmd.ToString().Remove(0, 4);
-                    try
-                    {
-                        var hello_file = fs.GetFile(current_directory + dogFile);
-                        var hello_file_stream = hello_file.GetFileStream();
-
-                        if (hello_file_stream.CanRead)
-                        {
-                            byte[] text_to_read = new byte[hello_file_stream.Length];
-                            hello_file_stream.Read(text_to_read, 0, (int)hello_file_stream.Length);
-                            Console.WriteLine(Encoding.Default.GetString(text_to_read));
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
+                else if (cmd.ToString().StartsWith("dog")) {
+                    var dogGarnFile = cmd.ToString().Remove(0, 4);
+                    readFile(dogGarnFile);
                 }
                 else if (cmd.ToString().StartsWith("samlang"))
                 {
@@ -341,6 +492,10 @@ namespace GEMSNT
                         else if (line.ToString().StartsWith("beep"))
                         {
                             Console.Beep(1000, 530);
+                        }
+                        else if (line.ToString().StartsWith("beep-custom"))
+                        {
+                            Console.Beep(int.Parse(samlangArgs[1]), int.Parse(samlangArgs[2]));
                         }
                         else
                         {

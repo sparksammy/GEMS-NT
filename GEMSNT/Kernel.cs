@@ -452,7 +452,7 @@ namespace GEMSNT
                 }
                 else if (cmd.ToString().StartsWith("dog")) {
                     var dogGarnFile = cmd.ToString().Remove(0, 4);
-                    readFile(dogGarnFile);
+                    Console.WriteLine(readFile(dogGarnFile));
                 }
                 else if (cmd.ToString().StartsWith("samlang"))
                 {

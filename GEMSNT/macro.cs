@@ -72,6 +72,9 @@ namespace GEMSNT
         public static String micro()
         {
             var cmdMode = false;
+            Console.Write("<**BEGIN READONLY**>");
+            Console.Write(contents);
+            Console.Write("<**END READONLY**>");
             while (true)
             { 
                 if (cmdMode == true)

@@ -11,12 +11,13 @@ using System.ComponentModel;
 using Cosmos.System.Graphics;
 using System.Drawing;
 using mouse = Cosmos.System.MouseManager;
+using System.Threading;
 
 namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.532prebeta";
+        string versionSTR = "0.5322prebeta";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -173,29 +174,37 @@ namespace GEMSNT
 
         public void createCursor(System.Drawing.Color color)
         {
-            try
+            while (true)
             {
-                Pen pen = new Pen(color);
-                canvas.DrawRectangle(pen, mouse.X, mouse.Y, mouse.X - 5, mouse.Y - 5);
-            }
-            catch
-            {
-                Console.WriteLine("Error making cursor.");
+                try
+                {
+                    Pen pen = new Pen(color);
+                    canvas.DrawRectangle(pen, mouse.X, mouse.Y, mouse.X + 20, mouse.Y - 10);
+                }
+                catch
+                {
+                    Console.WriteLine("Error making cursor.");
+                }
             }
         }
 
         public bool isClicked(int x1, int y1, int x2, int y2, Sys.MouseState state)
         {
-            //Example of state: Sys.MouseState.Left
-            if (mouse.MouseState == state && mouse.X < x1 && mouse.X > x2 && mouse.Y < y1 && mouse.Y > y2)
+            while (true)
             {
-                return true;
-            }
-            else
-            {
-                return false;
+                //Example of state: Sys.MouseState.Left
+                if (mouse.MouseState == state && mouse.X < x1 && mouse.X > x2 && mouse.Y < y1 && mouse.Y > y2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
+
+
 
         public void drawElement(string type, int x1, int y1, int x2, int y2, System.Drawing.Color color)
         {
@@ -262,9 +271,9 @@ namespace GEMSNT
                 else if (cmd == "lose")
                 {
                     initGUI();
-                    drawElement("rectangle",0,0,20,10,Color.Red);
+                    drawElement("rectangle",0,0,50,50,Color.Red);
                     createCursor(Color.Green);
-                    if (isClicked(0,0,20,10,Sys.MouseState.Left))
+                    if (isClicked(0,0,50,50,Sys.MouseState.Left))
                     {
                         clearGUI(Color.Red);
                     }

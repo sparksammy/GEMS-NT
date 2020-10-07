@@ -39,6 +39,7 @@ Required to use:
 * You can finally input commands! (Type cmds for commands!)
 * Text doesn't wrap around to the top!
 * A filesystem!
+* Now with E-EXP (Extra EXPerience) from the creator.
 * All of this (and maybe even more) thanks to Cosmos!
 
 ## Links to useful resources:

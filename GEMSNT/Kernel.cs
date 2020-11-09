@@ -15,6 +15,7 @@ using System.Threading;
 using Cosmos.HAL.Network;
 using Cosmos.System.Network.IPv4;
 using System.Linq;
+using System.Data;
 
 namespace GEMSNT
 {
@@ -425,6 +426,34 @@ namespace GEMSNT
                 {
                     Console.WriteLine(Networking.Networking.isNetworkingAvailable().ToString());
                 }
+                else if (cmd.ToString() == "santa-carol")
+                {
+                    Console.WriteLine("Playing a Santa Carol...");
+                    Random rNN = new Random(); //Random Number of Notes
+                    Random rN = new Random(); //Random Notes
+                    Random rMS = new Random(); //Random Milliseconds
+                    int rNNI = rNN.Next(250, 2500); //Anywhere from a short, lowpitched carol, to a long, highpitched carol.
+                    for (int i = 0; i < rNNI; i++)
+                    {
+                        int rNI = rN.Next(700, 2500); //from low pitch to high pitch
+                        int rMSI = rMS.Next(100, 1000); //from 100ms to 1sec. (short to long note)
+                        Console.Beep(rNI, rMSI); //Play it.
+                    }
+
+                }
+                else if (cmd.ToString() == "santa-oracle")
+                {
+                    string oracle = "Santa says:";
+                    string[] oracleWords = {"has","forgive","god","jesus","santa","oracle","forgiven","bad","good","naughty","samuel","toys","excellent", "tech"};
+                    Random rNW = new Random(); //Random Number of Words
+                    Random rW = new Random(); //Random Word
+                    int rNWI = rNW.Next(5, 42);
+                    for (int i = 0; i < rNWI; i++)
+                    {
+                        int rWI = rW.Next(0, 12);
+                        oracle += " " + oracleWords[rWI];
+                    }
+                }
                 else if (cmd.ToString().StartsWith("color"))
                 {
                     try
@@ -629,9 +658,14 @@ namespace GEMSNT
                             Console.WriteLine("micro - MIV alt.");
                             Console.WriteLine("setMACAddr - sets your MAC address.");
                             Console.WriteLine("setIPAddr - sets your IP address, example: setIPAddr 192 168 0 42");
-                            Console.WriteLine("***END OF COMMANDS***");
+                            Console.WriteLine("***MORE ON PAGE 'XMAS'***");
 
 
+                        }
+                        else if (args[1].ToLower() == "xmas")
+                        {
+                            Console.WriteLine("santa-carol - santa plays you a carol");
+                            Console.WriteLine("santa-oracle - santa talks to you");
                         }
                         else
                         {

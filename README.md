@@ -7,6 +7,8 @@ In order to contribute, you must follow the [Sparksammy C.O.C.](https://github.c
 
 *Also: This is not Spinel, we are just trying to be better. ;)*
 
+Now, we have a release schedule! Christmas, and summer. With versions indicating which version and year, for example "2020.Christmas"
+
 ## Requirements
 
 Required to build:

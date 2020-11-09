@@ -12,12 +12,15 @@ using Cosmos.System.Graphics;
 using System.Drawing;
 using mouse = Cosmos.System.MouseManager;
 using System.Threading;
+using Cosmos.HAL.Network;
+using Cosmos.System.Network.IPv4;
+using System.Linq;
 
 namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "0.5322prebeta";
+        string versionSTR = "2020.Christmas";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -463,6 +466,20 @@ namespace GEMSNT
                     var dogGarnFile = cmd.ToString().Remove(0, 4);
                     Console.WriteLine(readFile(dogGarnFile));
                 }
+                else if (cmd.ToString().StartsWith("setMacAddress")) {
+                    byte[] macBuffer = new byte[1];
+                    Cosmos.Common.Extensions.ByteConverter.SetUInt32(macBuffer, 0, 100);
+                    int offset = 0;
+                    MACAddress mac = new MACAddress(macBuffer, offset);
+                }
+                else if (cmd.ToString().StartsWith("setIPAddress"))
+                {
+                    byte firstByte = Convert.ToByte(int.Parse(args[1]));
+                    byte secondByte = Convert.ToByte(int.Parse(args[2]));
+                    byte thirdByte = Convert.ToByte(int.Parse(args[3]));
+                    byte fourthByte = Convert.ToByte(int.Parse(args[4]));
+                    Address addr = new Address(firstByte, secondByte, thirdByte, fourthByte);
+                }
                 else if (cmd.ToString().StartsWith("samlang"))
                 {
                     var samlangFile = cmd.ToString().Remove(0, 8);
@@ -505,6 +522,22 @@ namespace GEMSNT
                         else if (line.ToString().StartsWith("beep-custom"))
                         {
                             Console.Beep(int.Parse(samlangArgs[1]), int.Parse(samlangArgs[2]));
+                        }
+                        else if (line.ToString().StartsWith("math+"))
+                        {
+                            Console.WriteLine(int.Parse(samlangArgs[1]) + int.Parse(samlangArgs[2]));
+                        }
+                        else if (line.ToString().StartsWith("math/"))
+                        {
+                            Console.WriteLine(int.Parse(samlangArgs[1]) / int.Parse(samlangArgs[2]));
+                        }
+                        else if (line.ToString().StartsWith("math*"))
+                        {
+                            Console.WriteLine(int.Parse(samlangArgs[1]) * int.Parse(samlangArgs[2]));
+                        }
+                        else if (line.ToString().StartsWith("math-"))
+                        {
+                            Console.WriteLine(int.Parse(samlangArgs[1]) - int.Parse(samlangArgs[2]));
                         }
                         else
                         {
@@ -594,6 +627,8 @@ namespace GEMSNT
                             //Console.WriteLine("color [FG] [BG] - sets foreground/background color of console.");
                             //Console.WriteLine("color help - lists colors.");
                             Console.WriteLine("micro - MIV alt.");
+                            Console.WriteLine("setMACAddr - sets your MAC address.");
+                            Console.WriteLine("setIPAddr - sets your IP address, example: setIPAddr 192 168 0 42");
                             Console.WriteLine("***END OF COMMANDS***");
 
 

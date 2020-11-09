@@ -7,6 +7,10 @@ SamLang does *not* support the MIV app! (The new micro *isn't tested, either!*)
 * print - same as echo.
 * print-nlb - print/echo without linebreaks.
 * beep - beeps.
+* math+ - addition of two numbers, for example: math+ 2 3 would output 5.
+* math* - like math+ but multiplies, for example math* 2 3 would output 6.
+* math/ - like math* but divides, for example math/ 6 3 would output 2.
+* math- - like math/ but subtracts, for example math- 6 3 would output 3.
 
 ## Instructions for writing a "Hello, GEMS and SamLang!" app.
 * create a new file using mkfile.

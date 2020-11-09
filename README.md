@@ -7,7 +7,7 @@ In order to contribute, you must follow the [Sparksammy C.O.C.](https://github.c
 
 *Also: This is not Spinel, we are just trying to be better. ;)*
 
-Now, we have a release schedule! Christmas, and summer. With versions indicating which version and year, for example "2020.Christmas"
+Now, we have a release schedule! Christmas, and summer. With versions indicating which version and year, for example "2020.Christmas", and development previews are identified by an extra "-DP#", where # is the number that represents that release, for example: "2020.Christmas-DP1" would be the first development preview of the 2020 Christmas Build.
 
 ## Requirements
 

@@ -16,6 +16,8 @@ using Cosmos.HAL.Network;
 using Cosmos.System.Network.IPv4;
 using System.Linq;
 using System.Data;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GEMSNT
 {
@@ -28,6 +30,7 @@ namespace GEMSNT
         string current_directory = "0:\\";
         string currDir = "";
         public static string file;
+        int rWI = 0;
 
         protected override void BeforeRun()
         {
@@ -38,6 +41,11 @@ namespace GEMSNT
             Console.Clear();
         }
 
+        public void hackyCarolFix()
+        {
+            Random rW = new Random(); //Random Word
+            rWI = rW.Next(0, 12); //pick a word
+        }
         public void dir()
         {
             string[] dirs = Directory.GetDirectories(current_directory);
@@ -435,7 +443,7 @@ namespace GEMSNT
                     int rNNI = rNN.Next(15, 250); //Anywhere from a short, lowpitched carol, to a long, highpitched carol.
                     for (int i = 0; i < rNNI; i++)
                     {
-                        int rNI = rN.Next(700, 2500); //from low pitch to high pitch
+                        int rNI = rN.Next(700, 2200); //from low pitch to high pitch
                         int rMSI = rMS.Next(50, 650); //from 50ms to 650ms. (short to long note)
                         Console.Beep(rNI, rMSI); //Play it.
                     }
@@ -446,11 +454,11 @@ namespace GEMSNT
                     string oracle = "Santa says:";
                     string[] oracleWords = {"has","forgive","god","jesus","santa","oracle","forgiven","bad","good","naughty","samuel","toys","excellent", "tech"};
                     Random rNW = new Random(); //Random Number of Words
-                    Random rW = new Random(); //Random Word
+
                     int rNWI = rNW.Next(5, 42);
                     for (int i = 0; i < rNWI; i++) //repeat for each word
                     {
-                        int rWI = rW.Next(0, 12); //pick a word
+                        hackyCarolFix(); //hacky fix because for some reason the OS seems to only set the word once, but prints it multiple times.
                         oracle += " " + oracleWords[rWI]; //add word
                     }
                     Console.WriteLine(oracle); 

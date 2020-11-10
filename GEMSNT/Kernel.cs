@@ -432,11 +432,11 @@ namespace GEMSNT
                     Random rNN = new Random(); //Random Number of Notes
                     Random rN = new Random(); //Random Notes
                     Random rMS = new Random(); //Random Milliseconds
-                    int rNNI = rNN.Next(250, 2500); //Anywhere from a short, lowpitched carol, to a long, highpitched carol.
+                    int rNNI = rNN.Next(15, 250); //Anywhere from a short, lowpitched carol, to a long, highpitched carol.
                     for (int i = 0; i < rNNI; i++)
                     {
                         int rNI = rN.Next(700, 2500); //from low pitch to high pitch
-                        int rMSI = rMS.Next(100, 1000); //from 100ms to 1sec. (short to long note)
+                        int rMSI = rMS.Next(50, 650); //from 50ms to 650ms. (short to long note)
                         Console.Beep(rNI, rMSI); //Play it.
                     }
 
@@ -448,11 +448,12 @@ namespace GEMSNT
                     Random rNW = new Random(); //Random Number of Words
                     Random rW = new Random(); //Random Word
                     int rNWI = rNW.Next(5, 42);
-                    for (int i = 0; i < rNWI; i++)
+                    for (int i = 0; i < rNWI; i++) //repeat for each word
                     {
-                        int rWI = rW.Next(0, 12);
-                        oracle += " " + oracleWords[rWI];
+                        int rWI = rW.Next(0, 12); //pick a word
+                        oracle += " " + oracleWords[rWI]; //add word
                     }
+                    Console.WriteLine(oracle); 
                 }
                 else if (cmd.ToString().StartsWith("color"))
                 {

@@ -23,7 +23,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "2020.Christmas";
+        string versionSTR = "2021.1";
 
         Sys.FileSystem.CosmosVFS fs;
 
@@ -283,9 +283,9 @@ namespace GEMSNT
                 else if (cmd == "lose")
                 {
                     initGUI();
-                    drawElement("rectangle",0,0,50,50,Color.Red);
+                    drawElement("rectangle", 0, 0, 50, 50, Color.Red);
                     createCursor(Color.Green);
-                    if (isClicked(0,0,50,50,Sys.MouseState.Left))
+                    if (isClicked(0, 0, 50, 50, Sys.MouseState.Left))
                     {
                         clearGUI(Color.Red);
                     }
@@ -381,6 +381,10 @@ namespace GEMSNT
                     var echoing = cmd.ToString().Remove(0, 5);
                     Console.WriteLine(echoing);
                 }
+                else if (cmd.ToString().StartsWith("exec"))
+                {
+                    System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(System.IO.File.ReadAllBytes(args[1]));
+                }
                 else if (cmd.ToString().StartsWith("cd"))
                 {
                     var dirCD = cmd.ToString().Remove(0, 3);
@@ -452,7 +456,7 @@ namespace GEMSNT
                 else if (cmd.ToString() == "santa-oracle")
                 {
                     string oracle = "Santa says:";
-                    string[] oracleWords = {"has","forgive","god","jesus","santa","oracle","forgiven","bad","good","naughty","samuel","toys","excellent", "tech"};
+                    string[] oracleWords = { "has", "forgive", "god", "jesus", "santa", "oracle", "forgiven", "bad", "good", "naughty", "samuel", "toys", "excellent", "tech" };
                     Random rNW = new Random(); //Random Number of Words
 
                     int rNWI = rNW.Next(5, 42);
@@ -461,7 +465,7 @@ namespace GEMSNT
                         hackyCarolFix(); //hacky fix because for some reason the OS seems to only set the word once, but prints it multiple times.
                         oracle += " " + oracleWords[rWI]; //add word
                     }
-                    Console.WriteLine(oracle); 
+                    Console.WriteLine(oracle);
                 }
                 else if (cmd.ToString().StartsWith("color"))
                 {
@@ -500,11 +504,13 @@ namespace GEMSNT
                         Console.WriteLine(e);
                     }
                 }
-                else if (cmd.ToString().StartsWith("dog")) {
+                else if (cmd.ToString().StartsWith("dog"))
+                {
                     var dogGarnFile = cmd.ToString().Remove(0, 4);
                     Console.WriteLine(readFile(dogGarnFile));
                 }
-                else if (cmd.ToString().StartsWith("setMacAddress")) {
+                else if (cmd.ToString().StartsWith("setMacAddress"))
+                {
                     byte[] macBuffer = new byte[1];
                     Cosmos.Common.Extensions.ByteConverter.SetUInt32(macBuffer, 0, 100);
                     int offset = 0;

@@ -18,6 +18,7 @@ using System.Linq;
 using System.Data;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
+using GEMSNT.WDCL;
 
 namespace GEMSNT
 {
@@ -383,7 +384,7 @@ namespace GEMSNT
                 }
                 else if (cmd.ToString().StartsWith("exec"))
                 {
-                    System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(System.IO.File.ReadAllBytes(args[1]));
+                    WDCL.WDCL.launchExe(File.ReadAllBytes(args[1]));
                 }
                 else if (cmd.ToString().StartsWith("cd"))
                 {

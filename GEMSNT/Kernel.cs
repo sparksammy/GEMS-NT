@@ -24,7 +24,7 @@ namespace GEMSNT
 {
     public class Kernel : Sys.Kernel
     {
-        string versionSTR = "2021.1";
+        string versionSTR = "2021.2";
 
         Sys.FileSystem.CosmosVFS fs;
 

@@ -20,34 +20,43 @@ namespace GEMSNT.WDCL
             System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(bin);
             while (true)
             {
-                var callzz = memoryStream.ToString();
+                var callzz = BitConverter.ToString(memoryStream.GetBuffer());
                 twentyoneHandler(callzz);
             }
         }
 
         public static void twentyoneHandler(string callz)
         {
-            if (callz.Contains("00h"))
+            string[] callzArray = callz.Split(" ");
+            if (callz.Contains("0h"))
             {
                 Cosmos.System.Power.Reboot();
             }
-            else if (callz.Contains("01h"))
+            else if (callz.Contains("1h"))
             {
                 Console.Read();
             }
-            else if (callz.Contains("02h"))
+            else if (callz.Contains("2h"))
             {
-                Console.Write(callz.Replace("02h", ""));
+                for (var i = 0; i < callzArray.Length; i++)
+                {
+                    if (callzArray[i] == "2h")
+                    {
+                        Console.Write(callzArray[i + 1]);
+                    }
+                }
             }
-            else if (callz.Contains("09h"))
+            else if (callz.Contains("9h"))
             {
-                Console.WriteLine(callz.Replace("09h", ""));
+                for (var i = 0; i < callzArray.Length; i++)
+                {
+                    if (callzArray[i] == "9h")
+                    {
+                        Console.Write(callzArray[i + 1]);
+                    }
+                }
             }
-            else if (callz.Contains("0Fh"))
-            {
-                var noCall = callz.Replace("0Fh", "");
-                File.ReadAllText(noCall);
-            }
+            
         }
     }
 }

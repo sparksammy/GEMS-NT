@@ -28,10 +28,11 @@ namespace GEMSNT
 
         Sys.FileSystem.CosmosVFS fs;
 
-        string current_directory = "0:\\";
+        public string current_directory = "0:\\";
         string currDir = "";
         public static string file;
-        int rWI = 0;
+        public int rWI = 0;
+
 
         protected override void BeforeRun()
         {
@@ -382,9 +383,13 @@ namespace GEMSNT
                     var echoing = cmd.ToString().Remove(0, 5);
                     Console.WriteLine(echoing);
                 }
-                else if (cmd.ToString().StartsWith("exec"))
+                else if (cmd.ToString().StartsWith("execWdcl"))
                 {
                     WDCL.WDCL.launchExe(File.ReadAllBytes(args[1]));
+                }
+                else if (cmd.ToString().StartsWith("execBin"))
+                {
+                    GEMSBinaryLoader.GemsBin.LoadGemsBin(args[1]);
                 }
                 else if (cmd.ToString().StartsWith("cd"))
                 {
@@ -439,9 +444,9 @@ namespace GEMSNT
                 {
                     Console.WriteLine(Networking.Networking.isNetworkingAvailable().ToString());
                 }
-                else if (cmd.ToString() == "santa-carol")
+                else if (cmd.ToString() == "sCarol")
                 {
-                    Console.WriteLine("Playing a Santa Carol...");
+                    Console.WriteLine("Playing a sCarol...");
                     Random rNN = new Random(); //Random Number of Notes
                     Random rN = new Random(); //Random Notes
                     Random rMS = new Random(); //Random Milliseconds
@@ -454,17 +459,19 @@ namespace GEMSNT
                     }
 
                 }
-                else if (cmd.ToString() == "santa-oracle")
+                else if (cmd.ToString() == "sOracle")
                 {
-                    string oracle = "Santa says:";
-                    string[] oracleWords = { "has", "forgive", "god", "jesus", "santa", "oracle", "forgiven", "bad", "good", "naughty", "samuel", "toys", "excellent", "tech" };
-                    Random rNW = new Random(); //Random Number of Words
-
-                    int rNWI = rNW.Next(5, 42);
-                    for (int i = 0; i < rNWI; i++) //repeat for each word
+                    string oracle = "sOracle says:";
+                    string[] oracleWords = { "has", "forgive", "god", "jesus", "santa", "oracle", "forgiven", "bad", "good", "naughty", "samuel", "toys", "excellent", "tech", "husband", "thou", "you", "programmer" };
+                    Random rand = new Random(); //Random Number of Words
+                    Random randWords = new Random(); //Random Number of Words
+                    int numwords = rand.Next(1, 42);
+                    for (int i = 0; i < numwords; i++) //repeat for each word
                     {
+                        numwords = rand.Next(1, 42);
+                        string randWordStr = oracleWords[randWords.Next(0, oracleWords.Length - 1)];
                         hackyCarolFix(); //hacky fix because for some reason the OS seems to only set the word once, but prints it multiple times.
-                        oracle += " " + oracleWords[rWI]; //add word
+                        oracle += " " + randWordStr; //add word
                     }
                     Console.WriteLine(oracle);
                 }
@@ -548,46 +555,7 @@ namespace GEMSNT
 
                     foreach (var line in samlangFileContents.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
                     {
-                        var samlangArgs = line.Split(' ');
-
-                        if (line.ToString().StartsWith("print-nlb"))
-                        {
-                            var printingNLB = line.ToString().Remove(0, 11);
-                            Console.Write(printingNLB);
-                        }
-                        else if (line.ToString().StartsWith("print"))
-                        {
-                            var printing = line.ToString().Remove(0, 6);
-                            Console.WriteLine(printing);
-                        }
-                        else if (line.ToString().StartsWith("beep"))
-                        {
-                            Console.Beep(1000, 530);
-                        }
-                        else if (line.ToString().StartsWith("beep-custom"))
-                        {
-                            Console.Beep(int.Parse(samlangArgs[1]), int.Parse(samlangArgs[2]));
-                        }
-                        else if (line.ToString().StartsWith("math+"))
-                        {
-                            Console.WriteLine(int.Parse(samlangArgs[1]) + int.Parse(samlangArgs[2]));
-                        }
-                        else if (line.ToString().StartsWith("math/"))
-                        {
-                            Console.WriteLine(int.Parse(samlangArgs[1]) / int.Parse(samlangArgs[2]));
-                        }
-                        else if (line.ToString().StartsWith("math*"))
-                        {
-                            Console.WriteLine(int.Parse(samlangArgs[1]) * int.Parse(samlangArgs[2]));
-                        }
-                        else if (line.ToString().StartsWith("math-"))
-                        {
-                            Console.WriteLine(int.Parse(samlangArgs[1]) - int.Parse(samlangArgs[2]));
-                        }
-                        else
-                        {
-                            Console.WriteLine("!!! ERROR - COMMAND NOT FOUND!!!");
-                        }
+                        SamLangParser.SamLangParser.parseSamLang(line);
                     }
                 }
                 else if (cmd == "math")
@@ -674,14 +642,16 @@ namespace GEMSNT
                             Console.WriteLine("micro - MIV alt.");
                             Console.WriteLine("setMACAddr - sets your MAC address.");
                             Console.WriteLine("setIPAddr - sets your IP address, example: setIPAddr 192 168 0 42");
-                            Console.WriteLine("***MORE ON PAGE 'XMAS'***");
+                            Console.WriteLine("***MORE ON PAGE #4***");
 
 
                         }
-                        else if (args[1].ToLower() == "xmas")
+                        else if (args[1].ToLower() == "4")
                         {
-                            Console.WriteLine("santa-carol - santa plays you a carol");
-                            Console.WriteLine("santa-oracle - santa talks to you");
+                            Console.WriteLine("sCarol - plays you a carol");
+                            Console.WriteLine("sOracle - talks to you");
+                            Console.WriteLine("execWdcl - executes DOS binaries (Buggy WIP! Only partial 1.x support!)");
+                            Console.WriteLine("execBin - executes .bin binaries (WIP!)");
                         }
                         else
                         {

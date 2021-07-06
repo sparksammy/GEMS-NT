@@ -14,6 +14,7 @@ namespace GEMSNT.GEMSBinaryLoader
                 if (path.EndsWith(".bin"))
                 {
                     byte[] bytes = File.ReadAllBytes(path);
+                    System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(bytes);
                     return true;
                 } else
                 {

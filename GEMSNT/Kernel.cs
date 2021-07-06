@@ -33,7 +33,7 @@ namespace GEMSNT
         public static string file;
         public int rWI = 0;
 
-
+        
         protected override void BeforeRun()
         {
             fs = new Sys.FileSystem.CosmosVFS();
@@ -81,7 +81,7 @@ namespace GEMSNT
         }
         public void cd(string dirCD)
         {
-            if (fs.IsValidDriveId(dirCD.Replace(":\\", "")) || fs.IsValidDriveId(dirCD.Replace(":", "")))
+            if (fs.IsValidDriveId(dirCD.Replace(":\\", "")) || fs.IsValidDriveId(dirCD.Replace(":", "")) || fs.IsValidDriveId(dirCD))
             {
                 current_directory = dirCD;
             }
@@ -179,6 +179,9 @@ namespace GEMSNT
             canvas = FullScreenCanvas.GetFullScreenCanvas();
 
             canvas.Clear(Color.Blue);
+
+            mouse.ScreenWidth = Convert.ToUInt32(640);
+            mouse.ScreenHeight = Convert.ToUInt32(480);
         }
 
         public void clearGUI(System.Drawing.Color color)
@@ -286,10 +289,11 @@ namespace GEMSNT
                 {
                     initGUI();
                     drawElement("rectangle", 0, 0, 50, 50, Color.Red);
+                    
                     createCursor(Color.Green);
                     if (isClicked(0, 0, 50, 50, Sys.MouseState.Left))
                     {
-                        clearGUI(Color.Red);
+                        clearGUI(Color.Blue);
                     }
                 }
                 else if (cmd == "reboot")
@@ -378,6 +382,23 @@ namespace GEMSNT
                     }
                     Console.WriteLine("---");
                 }
+                else if (cmd == "drives")
+                {
+                    Console.WriteLine("Drives:");
+                    Console.WriteLine("---");
+                    for (int i = 0; i < 100; i++)
+                    {
+                        var possibleDrive = Cosmos.Common.StringHelper.GetNumberString(i) + ":\\";
+                        if (fs.IsValidDriveId(possibleDrive)) //wow ok zoomer
+                        {
+                            Console.WriteLine(" Drive: " + possibleDrive);
+                            Console.WriteLine(" Free space:" + fs.GetAvailableFreeSpace(possibleDrive));
+                            Console.WriteLine(" Total space:" + fs.GetTotalFreeSpace(possibleDrive));
+                            Console.WriteLine("---");
+                        }
+                    }
+                }
+
                 else if (cmd.ToString().StartsWith("echo"))
                 {
                     var echoing = cmd.ToString().Remove(0, 5);
@@ -612,8 +633,7 @@ namespace GEMSNT
                             Console.WriteLine("2file - writes a specified value to a file.");
                             Console.WriteLine("mkfile - creates a file at specified directory");
                             Console.WriteLine("mkdir - creates the specified directory");
-                            Console.WriteLine("del - deletes a file, NOT DIRECTORIES.");
-                            //Console.WriteLine("ddir - deletes a directory, NOT FILES."); //re-enable once fixed
+                            Console.WriteLine("del - deletes a file or directory.");
                             Console.WriteLine("cd - changes directory to passed directory");
                             Console.WriteLine("***MORE ON PAGE #2***");
                         }
@@ -622,8 +642,6 @@ namespace GEMSNT
                             Console.WriteLine("dir - list contents of directory");
                             Console.WriteLine("clear - clears screen");
                             Console.WriteLine("cmds/help - this.");
-                            //Console.WriteLine("setvol - set volume"); //re-enable once fixed
-                            //Console.WriteLine("listvol - list volumes"); //re-enable once fixed
                             Console.WriteLine("dog - get contents of file.");
                             Console.WriteLine("samlang - run a file as samlang");
                             Console.WriteLine("math - calculates a math operation with 2 numbers.");
@@ -652,6 +670,11 @@ namespace GEMSNT
                             Console.WriteLine("sOracle - talks to you");
                             Console.WriteLine("execWdcl - executes DOS binaries (Buggy WIP! Only partial 1.x support!)");
                             Console.WriteLine("execBin - executes .bin binaries (WIP!)");
+                            Console.WriteLine("drives - list disks"); //similar to the old listvol
+                        }
+                        else if (args[1].ToLower() == "5")
+                        {
+                            Console.WriteLine("Invalid page! Try 'cmds 1'");
                         }
                         else
                         {
